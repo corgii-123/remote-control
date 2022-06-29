@@ -1,0 +1,88 @@
+{
+  "name": "remote-control",
+  "version": "1.0.0",
+  "description": "remote-control",
+  "main": "./app/main/index.js",
+  "scripts": {
+    "start:main": "electron .",
+    "start:window": "cd ./app/renderer/src/main && yarn start && cd ../../../../",
+    "start": "concurrently \"npm run start:window\" \"wait-on http://localhost:3000\" \"npm run start:main\"",
+    "build": "cd ./app/renderer/src/main && yarn build && cd ../../../../",
+    "pack:mac": "npm run build && electron-builder --mac",
+    "pack:win": "npm run build && electron-builder --win --x64"
+  },
+  "keywords": [],
+  "author": "Corgii",
+  "license": "ISC",
+  "dependencies": {
+    "about-window": "^1.14.0",
+    "robotjs": "^0.6.0",
+    "vkey": "^1.0.1",
+    "ws": "^7.4.5",
+    "electron-is-dev": "^2.0.0"
+  },
+  "build": {
+    "appId": "com.geektime.corgii",
+    "productName": "Corgii-remote",
+    "files": "app",
+    "asar": false,
+    "extraFiles": [
+      "app/render/**/src",
+      "app/geek-example"
+    ],
+    "directories": {
+      "output": "release"
+    },
+    "copyright": "Copyright © 2021 Corgii",
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "icon": "app/sources/icon.png"
+    },
+    "dmg": {
+      "background": "",
+      "window": {
+        "width": 800,
+        "height": 600
+      },
+      "contents": [
+        {
+          "x": 410,
+          "y": 190
+        },
+        {
+          "x": 130,
+          "y": 190
+        }
+      ]
+    },
+    "win": {
+      "icon": "app/sources/icon.png",
+      "target": [
+        "nsis",
+        "squirrel"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "language": "2052",
+      "perMachine": true,
+      "allowToChangeInstallationDirectory": true
+    },
+    "squirrelWindows": {
+      "loadingGif": "app/sources/giphy.gif",
+      "iconUrl": "https://cdn.dribbble.com/users/31752/screenshots/2222176/corgi.png"
+    }
+  },
+  "devDependencies": {
+    "concurrently": "^6.1.0",
+    "cross-env": "^7.0.3",
+    "electron-builder": "^22.10.5",
+    "electron-builder-squirrel-windows": "^22.11.4",
+    "fs-extra": "^10.0.0",
+    "wait-on": "^5.3.0",
+    "electron": "^12.0.7"
+  }
+}
